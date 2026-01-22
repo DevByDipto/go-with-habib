@@ -1,0 +1,35 @@
+go code run hoi duita phase e :
+1. compilation phase
+2. execution phase
+
+go file jokhon run hoi first e code compile hoi compile time e compiler code line by line pore Syntax check করে Type check করে then code pora hole puro code tar binary file toiri kore disk e rakhe ai binary file e binary code  code segment,readonly data segment, data segment name separated abostai rakha hoi ar protita value er jonno akta vartual adress assign kora hoi . then jokhon execution shuru hoi tokhon Operating System executable file কে RAM এ load করে. OS RAM-এ program load করার সময়:
+
+code segment e binary/machine code er code segment instructions code gulo cole ase  then
+
+read only data segment e constant variable er value rakhe ten 
+
+Data segment e global/static variables gulo rakhe function o const data bade then
+
+aii binay file ram e transfat howar somoi vatrual adress gulo ram er asol adress e convert hoi.
+
+Stack e local variables, function calls hoi
+
+Heap → dynamically allocated memory
+
+1. Compilation:
+
+তোমার .go ফাইল কে compiler পড়ে।
+
+Source code কে machine code (CPU-readable instructions) এ convert করে।
+
+.exe বা binary ফাইল তৈরি হয়।
+
+2. Execution:
+
+Operating system ওই executable কে memory (RAM) এ load করে।
+
+CPU সেই binary instructions step-by-step execute করে।
+
+Source code দরকার নেই, CPU শুধু machine code execute করে।
+
+
