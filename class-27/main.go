@@ -32,3 +32,5 @@ func main() {
 	fmt.Println("Name:", user2.Name)
 	fmt.Println("Age:", user2.Age)
 }
+
+// task- samulate korte hobe
