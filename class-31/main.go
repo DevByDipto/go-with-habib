@@ -15,27 +15,42 @@
 
 // }
 
-// task simulate : fmt.print(arr) ai porjonto to parbo then main stack fram e s name akta sell nibe tate akta info rakhbe ptn,len,cap then jokhon s print hobe tokhon dekbe main er moddhe s ase kina dekbe ase then s er value dekbe ptn somthing ar len-3 so ptn holo arr er slice start value oi jaiga theke 3 ta value tule ane print korbe. 
+// task simulate : fmt.print(arr) ai porjonto to parbo then main stack fram e s name akta sell nibe tate akta info rakhbe ptr,len,cap then jokhon s print hobe tokhon dekbe main er moddhe s ase kina dekbe ase then s er value dekbe ptr somthing ar len-3 so ptr holo arr er slice start value oi jaiga theke 3 ta value tule ane print korbe. 
 // 
 
 //------------------------------------------------------------------------------------
 
- package main
+// package main
+
+// import "fmt"
+
+// func main(){     //    18     19   20  21       22         23
+// 	arr := [6]string {"this","is","a","go","interview","question"}
+// fmt.print(arr)
+
+// s := arr[1:4] // ["is","a","go"]
+// fmt.print(s)
+
+// s1 := s[1:2] // ["a"]
+// fmt.print(s1)
+// fmt.print(lan(s1))
+// fmt.print(cap(s1))
+// }
+
+// code simulation : fmt.print(s) ai porjonto to parbo. ar por jokhon dekha jabe j s1 := s[1,2] ache tokhon main er moddhe akta sell er nam hobe s1  then s er kase jabe ja akti slice header ar tate ache ptr-19,cap-5,len-3 so se s er ptr dhore arr er kache jabe sekhan theke 1:2 unojai data niye asbe ar tate thakbe ptr-20,len-1,cap-4 name akta slice header data thakbe.
+// -----------------------------------------------------------------------------
+
+package main
 
 import "fmt"
 
-func main(){     //    18     19   20  21       22         23
-	arr := [6]string {"this","is","a","go","interview","question"}
-fmt.print(arr)
+func main() {
 
-s := arr[1:4] // ["is","a","go"]
-fmt.print(s)
+    s1 := []int{1, 2, 3}  // its call sclice litaral
 
-s1 := s[1:2] // ["a"]
-fmt.print(s1)
-fmt.print(lan(s1))
-fmt.print(cap(s1))
+    fmt.Println(s1)
+    fmt.Println(len(s1))
+    fmt.Println(cap(s1))
 }
 
-// code simulation : fmt.print(s) ai porjonto to parbo. ar por jokhon dekha jabe j s1 := s[1,2] ache tokhon main er moddhe akta sell er nam hobe s1  then s er kase jabe ja akti struct ar tate ache ptn-19,cap-5,len-3 so se s er ptn dhore arr er kache jabe sekhan theke 1:2 unojai data niye asbe ar tate thakbe ptn-20,len-1,cap-4 name akta struct data thakbe.
-// -----------------------------------------------------------------------------
+// task simulation: main porjonto parbo then main call hobe stack fram toiri hobe tate 3 ta sell nibe se sell e 123 value bosbe then s1 name akta cell alocate hobe tate ptr,cap,len slice header rakhbe ar porer ta parbo.
