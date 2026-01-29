@@ -40,17 +40,32 @@
 // code simulation : fmt.print(s) ai porjonto to parbo. ar por jokhon dekha jabe j s1 := s[1,2] ache tokhon main er moddhe akta sell er nam hobe s1  then s er kase jabe ja akti slice header ar tate ache ptr-19,cap-5,len-3 so se s er ptr dhore arr er kache jabe sekhan theke 1:2 unojai data niye asbe ar tate thakbe ptr-20,len-1,cap-4 name akta slice header data thakbe.
 // -----------------------------------------------------------------------------
 
+// package main
+
+// import "fmt"
+
+// func main() {
+
+//     s1 := []int{1, 2, 3}  // its call sclice litaral
+
+//     fmt.Println(s1)
+//     fmt.Println(len(s1)) // result 3
+//     fmt.Println(cap(s1)) // result 3
+// }
+
+// task simulation: main porjonto parbo then main call hobe stack fram toiri hobe tate 3 ta sell nibe se sell e 123 value bosbe then s1 name akta cell alocate hobe tate ptr,cap,len slice header rakhbe ar porer ta parbo.
+
+// -----------------------------------------------------------------------------
 package main
 
 import "fmt"
 
 func main() {
 
-    s1 := []int{1, 2, 3}  // its call sclice litaral
+    s := make([int,3])  // [0,0,0] len=3 cap=3
+    s[0]=5 // [5,0,0]
 
-    fmt.Println(s1)
-    fmt.Println(len(s1))
-    fmt.Println(cap(s1))
+    fmt.Println(s)
+    fmt.Println(len(s)) // result 3
+    fmt.Println(cap(s)) // result 3
 }
-
-// task simulation: main porjonto parbo then main call hobe stack fram toiri hobe tate 3 ta sell nibe se sell e 123 value bosbe then s1 name akta cell alocate hobe tate ptr,cap,len slice header rakhbe ar porer ta parbo.
