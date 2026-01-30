@@ -24,7 +24,7 @@
 
 // import "fmt"
 
-// func main(){     //    18     19   20  21       22         23
+// func main(){    //    18     19   20  21       22         23
 // 	arr := [6]string {"this","is","a","go","interview","question"}
 // fmt.print(arr)
 
@@ -56,20 +56,20 @@
 // task simulation: main porjonto parbo then main call hobe stack fram toiri hobe tate 3 ta sell nibe se sell e 123 value bosbe then s1 name akta cell alocate hobe tate ptr,cap,len slice header rakhbe ar porer ta parbo.
 
 // -----------------------------------------------------------------------------
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-func main() {
+// func main() {
 
-    s := make([]int,3)  // [0,0,0] len=3 cap=3
-    s[0]=5 // [5,0,0] len=3 cap=3
+//     s := make([]int,3)  // [0,0,0] len=3 cap=3
+//     s[0]=5 // [5,0,0] len=3 cap=3
 
-    fmt.Println(s)
-    fmt.Println(len(s)) // result 3
-    fmt.Println(cap(s)) // result 3
+//     fmt.Println(s)
+//     fmt.Println(len(s)) // result 3
+//     fmt.Println(cap(s)) // result 3
 
-}
+// }
 
 // -----------------------------------------------------------------------------
 // package main
@@ -101,68 +101,72 @@ func main() {
 // simulation: main call hobe akta sell er nam rakhbe s tate ptr-nil,cap-0,len-0 rakhbe then jokhon fmt.print(s) aii line e asbe tokhon dekbe s ase kina s pabe er moddhe ptr pabe nill so [] print korbe
 
 // ----------------------------------------------------------------------------
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-func main() {
-	var x []int          // [] , len = 0, cap = 0
-	x = append(x, 1)     // [1], len = 1, cap = 1
-	x = append(x, 2)     // [1, 2], len = 2, cap = 2
-	x = append(x, 3)     // [1, 2, 3]
+// func main() {
+// 	var x []int          // [] , len = 0, cap = 0
+// 	x = append(x, 1)     // [1], len = 1, cap = 1
+// 	x = append(x, 2)     // [1, 2], len = 2, cap = 2
+// 	x = append(x, 3)     // [1, 2, 3]
+    
+// 	y := x               // y and x share the same underlying array
 
-	y := x               // y and x share the same underlying array
+// 	x = append(x, 4)     // may reallocate depending on capacity
+// 	y = append(y, 5)     // append via y
 
-	x = append(x, 4)     // may reallocate depending on capacity
-	y = append(y, 5)     // append via y
+// 	x[0] = 10             // modify underlying array
 
-	x[0] = 10             // modify underlying array
+// 	fmt.Println(x)        // [10 2 3 5]
+// 	fmt.Println(y)        // [10 2 3 5]
+// }
 
-	fmt.Println(x)        // [10 2 3 5]
-	fmt.Println(y)        // [10 2 3 5]
-}
+// -> slice underlying array rules : 1024 porjonto 100% kore incrise then 25%
 // task simulation
 // -----------------------------------------------------------------------------
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-func changeSlice(a []int) []int {
-	a[0] = 10
-	a = append(a, 11)
-	return a
-}
+// func changeSlice(p []int) []int {
+// 	p[0] = 10 // hr-24 len-3 cap-6 [10,6,7]
+// 	p = append(p, 11) // hr-24 len-4 cap-6 [10,6,7,11]
+// 	return p
+// }
 
-func main() {
-	x := []int{1, 2, 3, 4, 5}
-	x = append(x, 6)
-	x = append(x, 7)
+// func main() {
+// 	x := []int{1, 2, 3, 4, 5} //r-4
+// 	x = append(x, 6) // hr-20 len-6 cap-10 [1, 2, 3, 4, 5,6]
+// 	x = append(x, 7) // hr-20 len-7 cap-10 [1, 2, 3, 4, 5,6,7]
 
-	a := x[4:]
+// 	a := x[4:] // hr-24 len-3 cap-6 [5,6,7]
 
-	y := changeSlice(a)
+// 	y := changeSlice(a) // hr-24 len-4 cap-6 [10,6,7,11]
 
-	fmt.Println(x)
-	fmt.Println(y)
-}
+// 	fmt.Println(x) //[1, 2, 3, 4, 10, 6, 7]
+// 	fmt.Println(y) // [10,6,7,11]
+// 	fmt.Println(a) // [10,6,7]
+// 	fmt.Println(x[0:8]) // [1, 2, 3, 4, 10, 6, 7, 11]
+// }
 
 // simulation
 // -------------------------------------------------------------------------------
-package main
+// package main
 
-import "fmt"
+// import "fmt"
 
-// variadic function
-func print(numbers ...int) {
-	fmt.Println(numbers)
-	fmt.Println(len(numbers))
-	fmt.Println(cap(numbers))
-}
+// // variadic function
+// func print(numbers ...int) {
+// 	fmt.Println(numbers)
+// 	fmt.Println(len(numbers))
+// 	fmt.Println(cap(numbers))
+// }
 
-func add(a int, b int) {
+// func add(a int, b int) {
 
-}
+// }
 
-func main() {
-	print(5, 6, 7, 8, 9)
-}
+// func main() {
+// 	print(5, 6, 7, 8, 9)
+// }
