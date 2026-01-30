@@ -62,10 +62,107 @@ import "fmt"
 
 func main() {
 
-    s := make([int,3])  // [0,0,0] len=3 cap=3
-    s[0]=5 // [5,0,0]
+    s := make([]int,3)  // [0,0,0] len=3 cap=3
+    s[0]=5 // [5,0,0] len=3 cap=3
 
     fmt.Println(s)
     fmt.Println(len(s)) // result 3
     fmt.Println(cap(s)) // result 3
+
+}
+
+// -----------------------------------------------------------------------------
+// package main
+
+// import "fmt"
+
+// func main() {
+
+//     s := make([]int,3,5)  // [0,0,0] len=3 cap=5
+//     s[0]=5 // [5,0,0] len=3 cap=5
+// s[2]=5
+// s[4]=5
+//     fmt.Println(s)
+//     fmt.Println(len(s)) // result 3
+//     fmt.Println(cap(s)) // result 5
+// }
+
+// task simulation :  s := make([]int,3,5) ai porjonto parbo then s[0]=5 aii line e jokhon asbe tohon dekbe main er vitor s ase kina then s pabe then s er slice header theke pointer er maddhome array er adress e pochabe ja adress er first element er adress then adress er shate 0 jog korbe then j adress pabe tar value 5 kore dibe then same vabe  dekbe main er vitor s ase kina then s pabe then s er slice header theke pointer er maddhome array er adress e pochabe ja adress er first element er adress then adress er shate 2 jog korbe then j adress pabe tar value 5 kore dibe. akhon jokhon s[4]=5 ai line asbe asbe ar same process kore jog korar por dekbe j joto number cell pawa jacche ta array er moddhe pore nah tokhon run time error dibe karon array er length holo 3 but amra access korte cacchi 4 ja length er bairer cell. dhori araay te ase adress ad18->1,ad19->2 ,ad20->3 kintu jokhon s er pointer ke follow korbe o khuje pabe ad18 tar sate 4 jog korle hobe ad22 ar ad22 name cell ta length er awotavukto nah.
+// ---------------------------------------------------------------
+// package main
+
+// import "fmt"
+
+// func main() {
+// 	var s []int  // empty or nil slice
+// fmt.print(s) 
+// }
+
+// simulation: main call hobe akta sell er nam rakhbe s tate ptr-nil,cap-0,len-0 rakhbe then jokhon fmt.print(s) aii line e asbe tokhon dekbe s ase kina s pabe er moddhe ptr pabe nill so [] print korbe
+
+// ----------------------------------------------------------------------------
+package main
+
+import "fmt"
+
+func main() {
+	var x []int          // [] , len = 0, cap = 0
+	x = append(x, 1)     // [1], len = 1, cap = 1
+	x = append(x, 2)     // [1, 2], len = 2, cap = 2
+	x = append(x, 3)     // [1, 2, 3]
+
+	y := x               // y and x share the same underlying array
+
+	x = append(x, 4)     // may reallocate depending on capacity
+	y = append(y, 5)     // append via y
+
+	x[0] = 10             // modify underlying array
+
+	fmt.Println(x)        // [10 2 3 5]
+	fmt.Println(y)        // [10 2 3 5]
+}
+// task simulation
+// -----------------------------------------------------------------------------
+package main
+
+import "fmt"
+
+func changeSlice(a []int) []int {
+	a[0] = 10
+	a = append(a, 11)
+	return a
+}
+
+func main() {
+	x := []int{1, 2, 3, 4, 5}
+	x = append(x, 6)
+	x = append(x, 7)
+
+	a := x[4:]
+
+	y := changeSlice(a)
+
+	fmt.Println(x)
+	fmt.Println(y)
+}
+
+// simulation
+// -------------------------------------------------------------------------------
+package main
+
+import "fmt"
+
+// variadic function
+func print(numbers ...int) {
+	fmt.Println(numbers)
+	fmt.Println(len(numbers))
+	fmt.Println(cap(numbers))
+}
+
+func add(a int, b int) {
+
+}
+
+func main() {
+	print(5, 6, 7, 8, 9)
 }
