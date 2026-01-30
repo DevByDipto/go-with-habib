@@ -15,7 +15,7 @@ func printUserDetails(usr User) {
 }
 
 // printDetails is a receiver function (method) on User
-func (usr User) printDetails() {
+func (usr User) printDetails() { 
 	fmt.Println("Name: ", usr.Name)
 	fmt.Println("Age: ", usr.Age)
 }
