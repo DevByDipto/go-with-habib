@@ -16,6 +16,7 @@
 ১০২৪ কিলোবাইট = ১ মেগাবাইট (MB)
 
 ১০২৪ মেগাবাইট = ১ গিগাবাইট (GB) 
+10. jodi amar heard disk baa ram 4 bit er hoi tar mane 2^8 -1 = 15 arthath amar ram baa hard disk e 0-15 porjonto shonkha rakha jabe
 
 
 
