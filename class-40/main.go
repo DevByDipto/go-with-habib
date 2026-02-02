@@ -29,7 +29,7 @@ import "fmt"
 
 func sum(a int, b int) (s int) { // named retuns values
 	s = a + b
-	return s
+	return 
 }
 
 func main() {
@@ -37,3 +37,73 @@ func main() {
 
 	fmt.Println(res)
 }
+// --------------------------------------------------------------------------------
+/*
+named return values
+
+1. all codes execute
+2. defer function store kora hobe defer box e
+3. return -> all defer functions execute korbe
+4. return korbe named variables gular values
+
+just return types
+
+1. all codes execute
+2. defer function store kora hobe magic box e
+3. return values are evaluated at this time (store the return value)
+4. all defer functions execute korbe
+*/
+
+package main
+
+import "fmt"
+
+func calculate() (result int) {
+	fmt.Println("first", result) // first 0
+
+	show := func() {
+		result = result + 10
+		fmt.Println("defer", result) // defer 15
+	}
+
+	defer show()
+
+	result = 5
+	fmt.Println("second", result) // second 5
+
+	return
+}
+
+func calc() int {
+	result := 0
+	fmt.Println("first", result) // first 0
+
+	show := func() {
+		result = result + 10
+		fmt.Println("defer", result) // defer 10
+	}
+
+	defer show() 
+
+	result = 5
+	fmt.Println("second", result) // second 5
+
+	return result
+}
+
+func main() {
+	a := calculate()
+	fmt.Println("main first", a) // 15
+
+	b := calc()
+	fmt.Println("main second", b) // 5
+}
+// task : how the code work
+
+/*
+calculate
+calculateAnonymus1
+calc
+calcAnonymous1
+main
+*/
