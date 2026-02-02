@@ -23,3 +23,17 @@ func main() {
 }
 // task : simulate and output kii kii hobe ?
 // --------------------------------------------------------------------------
+package main
+
+import "fmt"
+
+func sum(a int, b int) (s int) { // named retuns values
+	s = a + b
+	return s
+}
+
+func main() {
+	res := sum(3, 4)
+
+	fmt.Println(res)
+}
