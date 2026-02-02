@@ -20,6 +20,13 @@ func a() {
 
 func main() {
 	a()
+	/*
+	outpot:
+	first 0
+	third 1
+	fourth 1
+	second 0
+	*/  
 }
 // task : simulate and output kii kii hobe ?
 // --------------------------------------------------------------------------
