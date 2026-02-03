@@ -1,11 +1,12 @@
 /*
-cpu koi vage bivokti ?
+1. cpu koi vage bivokti ?
 ans: image-2
 
+2. 
 
 
 
-go filr HDD RAM CPU te kivabe exicute hoi ?-> image-1
+2. go file HDD RAM CPU te kivabe exicute hoi ?-> image-1
 first e amra go file likhi then save click korle ta HDD e save hoi
 then build korle binary file build hoye tao HDD te save hoi
 then main.go file run korle HDD theke binary code ram e uthe jai jothakrome code,data segment etc te
@@ -16,10 +17,10 @@ then controll unit pointer regidter ke bole al bl cl niye kaj korte o opraration
 then controll unit ager process abar o repeat kore.
 
 
-process kii ?
+2. process kii ?
 ram er codesegment,data segment,stack,heap o cpu er controll unit,arethmetic logic unit,program counter instrcution register er somonoye j kaj shomponno hoi take bole process
 
-process/vartual computer/logical computer akoi kotha keno?
+3. process/vartual computer/logical computer akoi kotha keno?
 
 akta process er kase ja ja thake akta computer er kase o ta ta thake ar process consept ta exiest kore logical time e kichukkhoner jonno tai ake vartual computer/logical computer o bole.
 
