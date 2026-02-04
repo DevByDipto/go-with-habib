@@ -114,3 +114,48 @@ calc
 calcAnonymous1
 main
 */
+// --------------------------------------------------------------------------------
+package main
+
+import "fmt"
+
+func calculate() (result int) {
+	// First frame shows the initial print
+	fmt.Println("first", result)
+
+	// Define the show function as a closure
+	show := func() {
+		result = result + 10
+		fmt.Println("defer", result)
+	}
+
+	// First deferred call
+	defer show()
+
+	result = 5
+
+	// Define function p that takes an int
+	p := func(a int) {
+		fmt.Println("ami", a)
+	}
+
+	// Second deferred call: result is evaluated NOW (5)
+	defer p(result)
+
+	// Third deferred call: result is evaluated NOW (5)
+	defer fmt.Println(result)
+
+	fmt.Println("second", result)
+
+	// Fourth deferred call: constant value
+	defer fmt.Println(5)
+
+	return
+}
+
+func main() {
+	a := calculate()
+	fmt.Println("main first", a)
+}
+
+// task - simulate with how defer box exectly works
