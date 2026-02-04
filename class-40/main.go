@@ -159,3 +159,6 @@ func main() {
 }
 
 // task - simulate with how defer box exectly works
+// defer kon deta structure maintain kore ?
+// ans: defer link list data structure maintain kore with stack behabior 
+// defer actually kivabe kaj kore ?
