@@ -1,0 +1,266 @@
+
+
+
+```go
+type Speaker interface {
+	Speak()
+}
+
+type User struct{}
+
+func (u User) Speak() {
+	fmt.Println("User speaking")
+}
+
+type Robot struct{}
+
+func (r Robot) Speak() {
+	fmt.Println("Robot speaking")
+}
+
+func Talk(s Speaker) {
+	s.Speak()
+}
+```
+
+এখন নিচের দুই লাইন:
+
+```go
+Talk(User{})
+Talk(Robot{})
+```
+
+---
+
+## এখন একদম ধাপে ধাপে বুঝি
+
+### ধাপ 1️⃣ `Talk` function কী চায়?
+
+```go
+func Talk(s Speaker)
+```
+
+**বাংলায়:**
+`Talk` বলছে —
+
+> “আমাকে এমন কিছু দাও
+> যেটা `Speak()` করতে পারে”
+
+সে **User চায় না**,
+সে **Robot চায় না**,
+সে শুধু **Speak() method চায়**।
+
+---
+
+### ধাপ 2️⃣ `User{}` দিলে কী হয়?
+
+```go
+Talk(User{})
+```
+
+**বাংলায়:**
+
+* `User` struct-এর ভিতরে আছে `Speak()` method
+* তাই `User` → `Speaker` হিসেবে গ্রহণযোগ্য
+* Go দেখে বলে:
+  👉 “ঠিক আছে, শর্ত মিলেছে”
+
+তারপর ভিতরে যায়:
+
+```go
+s.Speak()
+```
+
+এখানে আসলে চালু হয়:
+
+```go
+User.Speak()
+```
+
+---
+
+### ধাপ 3️⃣ `Robot{}` দিলে কী হয়?
+
+```go
+Talk(Robot{})
+```
+
+**বাংলায়:**
+
+* `Robot` struct-এর ভিতরেও `Speak()` method আছে
+* তাই `Robot` ও `Speaker`
+* একই `Talk` function আবার কাজ করে
+
+ভিতরে চালু হয়:
+
+```go
+Robot.Speak()
+```
+
+---
+
+## এখন সবচেয়ে গুরুত্বপূর্ণ কথা 🔥
+
+### ❗ `Talk` জানেই না কে এসেছে
+
+**বাংলায়:**
+`Talk` function-এর কোনো ধারণাই নেই—
+
+* এটা `User` নাকি
+* `Robot` নাকি
+
+সে শুধু জানে:
+
+```go
+s.Speak()
+```
+
+---
+
+## Interface না থাকলে কী হতো?
+
+তখন তোমাকে লিখতে হতো:
+
+```go
+func TalkUser(u User) {
+	u.Speak()
+}
+
+func TalkRobot(r Robot) {
+	r.Speak()
+}
+```
+
+**বাংলায়:**
+
+* একই কাজ
+* দুইটা function
+* code বাড়ে
+* design খারাপ
+
+---
+
+## Interface আসলে কী করছে? (এক লাইনে)
+
+**বাংলায়:**
+Interface বলছে:
+
+> “টাইপ নয়, কাজ দেখাও”
+
+---
+
+## আবার ওই দুই লাইনে ফিরি
+
+```go
+Talk(User{})
+Talk(Robot{})
+```
+
+**এর মানে (বাংলায়):**
+
+* একই function
+* ভিন্ন ভিন্ন struct
+* একটাই শর্ত → `Speak()` থাকতে হবে
+
+---
+
+## Teacher recap (সবচেয়ে important)
+
+* `Speaker` = নিয়ম (contract)
+* `User`, `Robot` = নিয়ম মানে
+* `Talk` = নিয়মের উপর কাজ করে
+* তাই এক function এ সব কাজ হয়
+
+---
+
+
+//
+Go-তে Interface (ইন্টারফেস) হলো এমন একটি টুল যা দিয়ে আপনি বলতে পারেন একটি অবজেক্ট বা স্ট্রাকচার কী করতে পারে, কিন্তু সে কাজটা কীভাবে করবে সেটা ইন্টারফেস বলে দেয় না।
+
+সহজ কথায়, ইন্টারফেস হলো কিছু Method (মেথড)-এর একটি তালিকা বা সিগনেচার।
+
+// 
+uporer code unojai j struct er vitor Speak method thakbe se struct baa instance e Speaker interface
+
+//
+type ar interface er moddhe parthokko ki ?
+১️⃣ আগে এক লাইনে মূল পার্থক্য
+
+বাংলায়:
+
+type বলে দেয় → “আমি কী”
+
+interface বলে দেয় → “আমি কী করতে পারি”
+
+এই দুই লাইনের মানে বুঝলেই ৫০% clear।
+
+২️⃣ type কী?
+উদাহরণ
+type User struct {
+	Name string
+	Age  int
+}
+
+
+বাংলায়:
+type দিয়ে আমরা একটা concrete জিনিস বানাই।
+
+User মানে:
+
+Name আছে
+
+Age আছে
+
+বাস্তব একটা data structure
+
+👉 User{} বানানো যায়
+👉 data রাখা যায়
+
+type দিয়ে method যোগ করা যায়
+func (u User) Speak() {
+	fmt.Println("User speaking")
+}
+
+
+বাংলায়:
+এটা User টাইপের কাজ (behavior)।
+
+৩️⃣ interface কী?
+উদাহরণ
+type Speaker interface {
+	Speak()
+}
+
+
+বাংলায়:
+interface দিয়ে কোনো বাস্তব জিনিস বানানো যায় না।
+
+এটা শুধু বলে:
+
+“যার মধ্যে Speak() আছে
+সে Speaker”
+
+👉 interface-এ data নেই
+👉 instance নেই
+
+৪️⃣ সবচেয়ে বড় পার্থক্য (বাস্তব বনাম নিয়ম)
+type
+
+বাস্তব জিনিস
+
+data রাখে
+
+instance বানানো যায়
+
+u := User{}
+
+interface
+
+নিয়ম / শর্ত
+
+data রাখে না
+
+নিজে instance না
+
+
+
