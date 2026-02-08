@@ -103,3 +103,9 @@ func main() {
 func init(){
 	// product1:=
 }
+
+/*
+1. handeler kii ?
+ans: kono akta path mathch howar por oi math er jonno j actual function ke handle kora hoi ta handler
+2. handler /controller akoi kotha
+*/
