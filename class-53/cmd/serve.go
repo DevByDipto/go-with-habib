@@ -7,20 +7,25 @@ import (
 )
 
 func Serve() {
+	mux := http.NewServeMux()
+
 	manager := middleware.NewManager()
+	manager.Use(
+		middleware.Preflight,
+		middleware.Cors,
+		middleware.Logger,
+	)
 
-manager.Use(middleware.Logger, middleware.Hudai)
+	wrappedMux := manager.WrapMux(mux)
 
-mux := http.NewServeMux()
-
-initRoutes(manager,mux)
+    initRoutes(manager,mux)
 	// mux.Handle("GET /products", http.HandlerFunc(handlers.GetProducts)) // route
 	// mux.Handle("POST /create-products", http.HandlerFunc(handlers.CreateProduct))
 
 	fmt.Println("server runing 8080")
 
-	globalRouter := middleware.CorsWithPreflight(mux)
-	err := http.ListenAndServe(":8080", globalRouter)
+	// globalRouter := middleware.CorsWithPreflight(mux)
+	err := http.ListenAndServe(":8080", wrappedMux)
 
 	if err != nil {
 		fmt.Println("Error starting the server", err)

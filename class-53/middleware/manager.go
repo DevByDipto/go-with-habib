@@ -21,18 +21,25 @@ func (mngr *Manager) Use(middlewares ...Middleware) {
 	mngr.globalMiddlewares = append(mngr.globalMiddlewares, middlewares...) // [Logger(next),Hudai(next)]
 }
 
-func (mngr *Manager) With(next http.Handler, middlewares ...Middleware) http.Handler {
-	n := next // http.HandlerFunc(handlers.GetProducts)
+func (mngr *Manager) With(handler http.Handler, middlewares ...Middleware) http.Handler {
+	h := handler // http.HandlerFunc(handlers.GetProducts)
 
 	for _, middleware := range middlewares {
-		n = middleware(n) // arekta(GetProducts)
+		h = middleware(h) // arekta(GetProducts)
 	}
 
+	return h
+}
+
+func (mngr *Manager) WrapMux(handler http.Handler) http.Handler {
+	h := handler 
+
+	
 	// m.globalMiddlewares = [logger, hudai]
 	// hudai(logger(http.handlerFunc(GetProducts)))
-	for _, globalMiddleware := range mngr.globalMiddlewares {
-		n = globalMiddleware(n) //Logger(arekta(GetProducts))
+	for _, middleware := range mngr.globalMiddlewares {
+		h = middleware(h) //Logger(arekta(GetProducts))
 	}
 
-	return n
+	return h
 }

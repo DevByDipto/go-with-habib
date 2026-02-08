@@ -2,7 +2,7 @@ package middleware
 
 import "net/http"
 
-func CorsWithPreflight(mux *http.ServeMux) http.Handler {
+func Cors(next http.Handler) http.Handler {
 
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
@@ -10,12 +10,7 @@ func CorsWithPreflight(mux *http.ServeMux) http.Handler {
 		w.Header().Set("Access-Control-Allow-Headers", "Content-Type, Habib")
 		w.Header().Set("Content-Type", "application/json")
 
-		if r.Method == "OPTIONS" {
-
-			w.WriteHeader(200)
-			return
-		} else {
-			mux.ServeHTTP(w, r)
-		}
+		next.ServeHTTP(w, r)
+		
 	})
 }
