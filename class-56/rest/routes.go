@@ -21,7 +21,7 @@ mux.Handle(
 	"POST /products",
 	manager.With(
 		http.HandlerFunc(handlers.CreateProduct),
-		
+		middleware.AuthenticateJWT,
 	),
 )
 mux.Handle(
