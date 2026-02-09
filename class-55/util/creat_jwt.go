@@ -5,7 +5,7 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"encoding/json"
-	
+	"fmt"
 )
 
 type Header struct {
@@ -32,7 +32,9 @@ func CreateJwt(secret string, data Payload) (string, error) {
 		Typ: "JWT",
 	}
 	headerBytes, _ := json.Marshal(header)
+	fmt.Println("headerBytes:", headerBytes)
 	headerB64 := base64UrlEncode(headerBytes)
+	fmt.Println("headerB64:", headerB64 ,"---")
 
 	// 2. Encode Payload
 	byteArrData, err := json.Marshal(data)
