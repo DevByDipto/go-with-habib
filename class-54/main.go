@@ -1,10 +1,9 @@
-
-
 package main
 
 import (
 	"ecommerce/cmd"
-	
+// 	"ecommerce/config"
+// 	"fmt"
 )
 
 
@@ -12,6 +11,11 @@ import (
 
 func main() {
 	cmd.Serve()
+	// cnf := config.GetConfig()
+
+	// fmt.Println(cnf.Version)
+	// fmt.Println(cnf.ServiceName)
+	// fmt.Println(cnf.HttpPort)
 
 }
 
