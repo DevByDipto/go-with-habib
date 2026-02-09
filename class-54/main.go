@@ -19,9 +19,7 @@ func main() {
 
 }
 
-func init() {
-	// product1:=
-}
+
 
 
 

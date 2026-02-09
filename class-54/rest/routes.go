@@ -7,27 +7,44 @@ import (
 )
 
 func initRoutes(manager *middleware.Manager, mux *http.ServeMux) {
-mux.Handle(
-	"GET /rahim",
-	manager.With(
-		http.HandlerFunc(handlers.Test),
-		middleware.Arekta,
-	),
-)
+
 
 mux.Handle(
 	"GET /products",
 	manager.With(
 		http.HandlerFunc(handlers.GetProducts),
-		middleware.Arekta,
+		
 	),
 )
 
 mux.Handle(
-	"POST /create-products",
+	"POST /products",
 	manager.With(
 		http.HandlerFunc(handlers.CreateProduct),
-		middleware.Arekta,
+		
 	),
 )
+mux.Handle(
+	"GET /products/{id}",
+	manager.With(
+		http.HandlerFunc(handlers.GetProduct),
+		
+	),
+)
+mux.Handle(
+	"PUT /products/{id}",
+	manager.With(
+		http.HandlerFunc(handlers.UpdateProduct),
+		
+	),
+)
+
+mux.Handle(
+	"DELETE /products/{id}",
+	manager.With(
+		http.HandlerFunc(handlers.DeleteProduct),
+		
+	),
+)
+
 }
