@@ -53,5 +53,12 @@ mux.Handle(
 		
 	),
 )
+mux.Handle(
+	"POST /login",
+	manager.With(
+		http.HandlerFunc(handlers.Login),
+		
+	),
+)
 
 }

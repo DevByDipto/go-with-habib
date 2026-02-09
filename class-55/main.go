@@ -1,21 +1,33 @@
 package main
 
 import (
-	"ecommerce/cmd"
-// 	"ecommerce/config"
-// 	"fmt"
+	"ecommerce/util"
+	"fmt"
+	// 	"ecommerce/config"
+	// 	"fmt"
 )
 
 
 
 
 func main() {
-	cmd.Serve()
-	// cnf := config.GetConfig()
+	// cmd.Serve()
+	// Example usage:
+	p := util.Payload{
+		Sub:         "1234567890",
+		FirstName:   "John",
+		LastName:    "Doe",
+		Email:       "john@example.com",
+		IsShopOwner: true,
+	}
 
-	// fmt.Println(cnf.Version)
-	// fmt.Println(cnf.ServiceName)
-	// fmt.Println(cnf.HttpPort)
+	token, err := util.CreateJwt("your-256-bit-secret", p)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return
+	}
+
+	fmt.Println(token)
 
 }
 

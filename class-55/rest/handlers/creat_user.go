@@ -20,7 +20,6 @@ func CreateUser(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Invalid Request Data", http.StatusBadRequest)
 		return
 	}
-
 	// মেথড কল করে ইউজার স্টোর করা
 	createdUser := newUser.Store()
 
