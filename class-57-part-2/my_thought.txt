@@ -1,0 +1,80 @@
+amar handler folder er moddhe user folder e creatuser,login go file ase ar user folder er moddhe route name akti file ace jate shob route dicleare ache. akhon course e teacher kichu step nise ami ta tumake bolbo then tumi amake bolba oi step gulor gurotto ki chilo.
+1.step- akta handler file banaise tate 
+
+```go
+	package user
+
+	type Handler struct{}
+
+	func newHandler() *Handler{
+		return  &Handler{} 
+	}
+```
+
+amn ta korse
+2.step- 
+
+```go
+func (h *Handler) RegisterRoutes(manager *middleware.Manager, mux *http.ServeMux) {
+
+```go
+mux.Handle(
+	"POST /users",
+	manager.With(
+		http.HandlerFunc(h.CreateUser),
+		
+	),
+)
+mux.Handle(
+	"POST /login",
+	manager.With(
+		http.HandlerFunc(h.Login),
+		
+	),
+)
+```
+
+```
+
+register route ke oi handler er reciver e convert kore dise.
+3.step-
+
+```go
+func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
+```
+
+
+```go
+func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
+```
+
+login o creat user ke o oi handler er reciver function e convert kore dise
+1. step- server.go file e
+
+```go
+type Server struct{
+	productHandler *product.Handler
+	userHandler *user.Handler
+}
+
+func NewServer(
+	productHandler *product.Handler,
+	userHandler *user.Handler,
+	) *Server{
+	return &Server{
+		productHandler: productHandler,
+		userHandler: userHandler,
+	}
+}
+```
+
+
+```go
+func (server *Server) Start(cnf config.Config) {
+	
+	server.userHandler.RegisterRoutes(manager, mux)
+```
+
+aii kaj gulo korse Server  struct banaise,NewServer func banaise,Start function er vitor RegisterRoutes diclear korse.
+
+akhon amar kotha holo ato handler ar reciver function bananor ki dorkar chilo cile to direct RegisterRoutes er vitor HandlerFunc er moddhe user.CreateUser korte parto then Start function er vitor Start.RegisterRoutes call korte parto to ate handler struct function creat korar dorkar ki chilo. details e step by step bujaw
