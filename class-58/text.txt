@@ -1,0 +1,4 @@
+1. singleton design pattern kii ?
+ans: akta object creat hobe ar jara e aita ke nite caibe se object tai shobar moddhe share hobe aitai singleton design pattern.
+2. interface:
+ans: interface is a pure abstract or just a dharona.
