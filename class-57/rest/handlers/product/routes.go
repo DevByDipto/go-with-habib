@@ -1,4 +1,4 @@
-package user
+package product
 
 import (
 	"ecommerce/rest/handlers"

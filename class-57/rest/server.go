@@ -2,13 +2,33 @@ package rest
 
 import (
 	"ecommerce/config"
+	"ecommerce/rest/handlers/product"
+	"ecommerce/rest/handlers/user"
 	"ecommerce/rest/middleware"
 	"fmt"
 	"net/http"
 	"strconv"
 )
 
-func Start(cnf config.Config) {
+type Server struct{
+	cnf config.Config
+	productHandler *product.Handler
+	userHandler *user.Handler
+}
+
+func NewServer( 
+	cnf config.Config,
+	productHandler *product.Handler,
+	userHandler *user.Handler,
+	) *Server{ 
+	return &Server{
+		cnf : cnf,
+		productHandler: productHandler,
+		userHandler: userHandler,
+	}
+}
+
+func (server *Server) Start() { // aikhane pointer keno use hoise ??
 	mux := http.NewServeMux()
 
 	manager := middleware.NewManager()
@@ -20,9 +40,11 @@ func Start(cnf config.Config) {
 
 	wrappedMux := manager.WrapMux(mux)
 
-	initRoutes(manager, mux)
+	// initRoutes(manager, mux)
+	server.productHandler.RegisterRoutes(manager, mux)
+	server.userHandler.RegisterRoutes(manager, mux)
 
-	addr := ":" + strconv.Itoa(cnf.HttpPort)
+	addr := ":" + strconv.Itoa(server.cnf.HttpPort)
 	fmt.Println("server runing", addr)
 
 	err := http.ListenAndServe(addr, wrappedMux)

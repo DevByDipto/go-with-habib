@@ -1,7 +1,6 @@
 package user
 
 import (
-	"ecommerce/rest/handlers"
 	"ecommerce/rest/middleware"
 	"net/http"
 )

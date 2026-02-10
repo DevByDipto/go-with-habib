@@ -2,6 +2,6 @@
 
 	type Handler struct{}
 
-	func newHandler() *Handler{
+	func NewHandler() *Handler{
 		return  &Handler{} // address keno pass kortese bujte hobe ??
 	}
