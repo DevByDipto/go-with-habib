@@ -21,7 +21,7 @@ mux.Handle(
 	"POST /products",
 	manager.With(
 		http.HandlerFunc(h.CreateProduct),
-		middleware.AuthenticateJWT,
+		h.middlewares.AuthenticateJWT,
 	),
 )
 mux.Handle(
@@ -42,7 +42,7 @@ mux.Handle(
 mux.Handle(
 	"DELETE /products/{id}",
 	manager.With(
-		http.HandlerFunc(handlers.DeleteProduct),
+		http.HandlerFunc(h.DeleteProduct),
 		
 	),
 )
