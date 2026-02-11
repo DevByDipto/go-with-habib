@@ -3,6 +3,7 @@ package cmd
 import (
 	"ecommerce/config"
 	"ecommerce/infra/db"
+	"ecommerce/repo"
 	"ecommerce/rest"
 	"ecommerce/rest/handlers/product"
 	"ecommerce/rest/handlers/user"
@@ -24,9 +25,13 @@ func Serve() {
 	fmt.Println("Successfully connected to the database!", dbCon)
 
 middlewares := middleware.NewMiddlewares(cnf)
+productRepo := repo.NewProductRepo()
+userRepo := repo.NewUserRepo()
 
-	productHandler := product.NewHandler(middlewares)
-	userHandler := user.NewHandler()
+	productHandler := product.NewHandler(middlewares,productRepo)
+	userHandler := user.NewHandler(userRepo)
 	server := rest.NewServer(cnf,productHandler,userHandler)
 	server.Start()
+
+	
 }

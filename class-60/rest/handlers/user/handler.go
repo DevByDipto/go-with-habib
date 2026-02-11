@@ -1,7 +1,15 @@
-	package user
+package user
 
-	type Handler struct{}
+import "ecommerce/repo"
 
-	func NewHandler() *Handler{
-		return  &Handler{} 
+type Handler struct {
+	userRepo repo.UserRepo
+}
+
+func NewHandler(
+	userRepo repo.UserRepo,
+) *Handler {
+	return &Handler{
+		userRepo :userRepo,
 	}
+} 
