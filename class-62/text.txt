@@ -1,0 +1,15 @@
+satabase related info:
+1. SERIAL-32bit
+2. BIGSERIAL- 064bits
+3. INT- 32bits
+4. BIGINT- 64bits
+5. SMALLINT- 1664bits
+6. REAL- 32bits(for flotation number)
+7. DOBULE PRECISION- 64bits(for flotation number)
+8. VARCHAR(N)- variable length up to N
+9. CHAR(N)- variable length fiext to N
+10. boolean- true or false
+11. TIME- time of the day
+12. DATE- date of the day
+13. TIMESTAMP- date and time
+14. TIMESTAMPZ- date and time with time zone
