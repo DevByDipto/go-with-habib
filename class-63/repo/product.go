@@ -1,16 +1,19 @@
 package repo
 
 import (
+	"database/sql"
 	"errors"
+
+	"github.com/jmoiron/sqlx"
 )
 
 // Product represents the data model for a store item
 type Product struct {
-	ID          int     `json:"id"`
-	Title       string  `json:"title"`
-	Description string  `json:"description"`
-	Price       float64 `json:"price"`
-	ImgUrl      string  `json:"imageUrl"`
+	ID          int     `json:"id" db:"id"`
+	Title       string  `json:"title" db:"title"`
+	Description string  `json:"description" db:"description"`
+	Price       float64 `json:"price" db:"price"`
+	ImgUrl      string  `json:"imageUrl" db:"img_url"`
 }
 
 // ProductRepo defines the behavior of our product storage
@@ -23,117 +26,117 @@ type ProductRepo interface {
 }
 
 type productRepo struct {
-	productList []*Product
+	db *sqlx.DB
 }
 
 // NewProductRepo is a constructor that initializes the repo with seed data
-func NewProductRepo() ProductRepo {
-	repo := &productRepo{}
-	generateInitialProducts(repo)
-	return repo
+func NewProductRepo(db *sqlx.DB) ProductRepo {
+	return &productRepo{
+		db: db,
+	}
 }
+
 
 // --- CRUD Methods ---
 
 func (r *productRepo) Create(p Product) (*Product, error) {
-	p.ID = len(r.productList) + 1
-	r.productList = append(r.productList, &p)
+	query := `
+		INSERT INTO products (
+			title,
+			description,
+			price,
+			img_url
+		) VALUES (
+			$1, $2, $3, $4
+		)
+		RETURNING id
+	`
+
+	// Execute the query and scan the returned ID back into the product struct
+	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImgUrl)
+	err := row.Scan(&p.ID)
+	if err != nil {
+		return nil, err
+	}
+
 	return &p, nil
 }
 
-func (r *productRepo) Get(productID int) (*Product, error) {
-	for _, product := range r.productList {
-		if product.ID == productID {
-			return product, nil
+func (r *productRepo) Get(id int) (*Product, error) {
+	var prd Product
+
+	query := `
+		SELECT 
+			id, 
+			title, 
+			description, 
+			price, 
+			img_url 
+		FROM products 
+		WHERE id = $1
+	`
+
+	// r.db.Get সরাসরি কুয়েরি রেজাল্টকে prd ভ্যারিয়েবলে ম্যাপ করে ফেলে
+	err := r.db.Get(&prd, query, id)
+	if err != nil {
+		// যদি ডাটাবেসে এই আইডি দিয়ে কোন রো না পাওয়া যায়
+		if err == sql.ErrNoRows {
+			return nil, nil
 		}
+		// অন্য কোন এরর হলে সেটা রিটার্ন করবে
+		return nil, err
 	}
-	return nil, errors.New("product not found")
+
+	return &prd, nil
 }
 
 func (r *productRepo) List() ([]*Product, error) {
-	return r.productList, nil
+	var prdList []*Product // slice -> address, cap, len
+
+	query := `
+		SELECT 
+			id, 
+			title, 
+			description, 
+			price, 
+			img_url 
+		FROM products
+	`
+
+	// r.db.Select ব্যবহার করা হয়েছে কারণ আমরা একাধিক রো (Rows) আশা করছি
+	err := r.db.Select(&prdList, query)
+	if err != nil {
+		return nil, err
+	}
+
+	return prdList, nil
 }
 
-func (r *productRepo) Delete(productID int) error {
-	var tempList []*Product
-	found := false
+func (r *productRepo) Delete(id int) error {
+	query := `DELETE FROM products WHERE id = $1`
 
-	for _, p := range r.productList {
-		if p.ID != productID {
-			tempList = append(tempList, p)
-		} else {
-			found = true
-		}
+	// Exec ব্যবহার করা হয় যখন আমরা কোন ডাটা রিটার্ন চাই না (যেমন: Delete, Update)
+	_, err := r.db.Exec(query, id)
+	if err != nil {
+		return err
 	}
 
-	if !found {
-		return errors.New("cannot delete: product not found")
-	}
-
-	r.productList = tempList
 	return nil
 }
 
-func (r *productRepo) Update(product Product) (*Product, error) {
-	for idx, p := range r.productList {
-		if p.ID == product.ID {
-			r.productList[idx] = &product
-			return &product, nil
-		}
+func (r *productRepo) Update(p Product) (*Product, error) {
+	query := `
+		UPDATE products
+		SET title=$1, description=$2, price=$3, img_url=$4
+		WHERE id = $5
+	`
+	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImgUrl, p.Id)
+	err := row.Err()
+	if err != nil {
+		return nil, err
 	}
-	return nil, errors.New("cannot update: product not found")
+
+	return &p, nil
 }
 
-// --- Seed Data ---
 
-func generateInitialProducts(r *productRepo) {
-	prd1 := &Product{
-		ID:          1,
-		Title:       "Orange",
-		Description: "Orange is red. I love orange.",
-		Price:       100,
-		ImgUrl:      "https://www.dole.com/sites/default/files/media/2025-0",
-	}
-
-	prd2 := &Product{
-		ID:          2,
-		Title:       "Apple",
-		Description: "Apple is green. I hate apple.",
-		Price:       40,
-		ImgUrl:      "https://www.harrisfarm.com.au/cdn/shop/products/40715",
-	}
-
-	prd3 := &Product{
-		ID:          3,
-		Title:       "Banana",
-		Description: "Banana is boring. I feel bored eating banana.",
-		Price:       5,
-		ImgUrl:      "https://www.allrecipes.com/thmb/lc7nSL9L5zMHXz9t6PMAW",
-	}
-
-	prd4 := &Product{
-		ID:          4, // Fixed ID from screenshot (was 3)
-		Title:       "Banana Clone",
-		Description: "Another boring banana.",
-		Price:       5,
-		ImgUrl:      "https://www.allrecipes.com/thmb/lc7nSL9L5zMHXz9t6PMAW",
-	}
-
-	prd5 := &Product{
-		ID:          5, // Fixed ID from screenshot (was 3)
-		Title:       "Angur Fol",
-		Description: "Grapes are great.",
-		Price:       140,
-		ImgUrl:      "https://www.allrecipes.com/thmb/lc7nSL9L5zMHXz9t6PMAW",
-	}
-
-	prd6 := &Product{
-		ID:          6, // Fixed ID from screenshot (was 3)
-		Title:       "Mango",
-		Description: "Mango is my favorite. I love it very much.",
-		Price:       10000000,
-		ImgUrl:      "https://www.dole.com/sites/default/files/styles/512w3",
-	}
-
-	r.productList = append(r.productList, prd1, prd2, prd3, prd4, prd5, prd6)
-}

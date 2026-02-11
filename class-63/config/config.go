@@ -9,12 +9,21 @@ import (
 )
 
 var configurations *Config
+type DBConfig struct {
+	Host           string
+	Port           int
+	Name           string
+	User           string
+	Password       string
+	EnableSSLMODE  bool
+}
 
 type Config struct {
-	Version     string
-	ServiceName string
-	HttpPort    int
+	Version      string
+	ServiceName  string
+	HttpPort     int
 	JwtSecretKey string
+	DB           *DBConfig
 }
 
 func loadConfig() {
@@ -48,17 +57,78 @@ func loadConfig() {
 		os.Exit(1)
 	}
 
-		JwtSecretKey := os.Getenv("JWT_SECRET_KEY")
-	if JwtSecretKey == "" {
+		jwtSecretKey := os.Getenv("JWT_SECRET_KEY")
+	if jwtSecretKey == "" {
 		fmt.Println("JwtSecretKey is required")
 		os.Exit(1)
 	}
-	
-	configurations = &Config{
-		Version:     version,
-		ServiceName: serviceName,
-		HttpPort:    int(port),
+
+	// 1. Load Database Host
+	dbHost := os.Getenv("DB_HOST")
+	if dbHost == "" {
+		fmt.Println("Host is required")
+		os.Exit(1)
 	}
+
+	// 2. Load and Parse Database Port
+	dbPortStr := os.Getenv("DB_PORT")
+	if dbPortStr == "" {
+		fmt.Println("Db port is required")
+		os.Exit(1)
+	}
+	dbPrt, err := strconv.ParseInt(dbPortStr, 10, 64)
+	if err != nil {
+		fmt.Println("Port must be number")
+		os.Exit(1)
+	}
+
+	// 3. Load Database Name and User
+	dbName := os.Getenv("DB_NAME")
+	if dbName == "" {
+		fmt.Println("DB Name is required")
+		os.Exit(1)
+	}
+
+	dbUser := os.Getenv("DB_USER")
+	if dbUser == "" {
+		fmt.Println("DB Use is required")
+		os.Exit(1)
+	}
+
+	// 4. Load Password and SSL Mode
+	dbPass := os.Getenv("DB_PASSWORD")
+	if dbPass == "" {
+		fmt.Println("DB Password is required")
+		os.Exit(1)
+	}
+
+	enableSslModeRaw := os.Getenv("DB_ENABLE_SSL_MODE")
+	enblSSLMode, err := strconv.ParseBool(enableSslModeRaw)
+	if err != nil {
+		fmt.Println("Invalid enable ssl mode value", err)
+		os.Exit(1)
+	}
+
+	// 5. Initialize DBConfig struct
+	dbConfig := &DBConfig{
+		Host:          dbHost,
+		Port:          int(dbPrt),
+		Name:          dbName,
+		User:          dbUser,
+		Password:      dbPass,
+		EnableSSLMODE: enblSSLMode,
+	}
+
+	
+
+	configurations = &Config{
+		Version:      version,
+		ServiceName:  serviceName,
+		HttpPort:     int(dbPrt), // Using the parsed port from screenshots
+		JwtSecretKey: jwtSecretKey,
+		DB:           dbConfig,
+	}
+	
 }
 
 func GetConfig() *Config {
