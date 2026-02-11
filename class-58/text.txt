@@ -2,3 +2,15 @@
 ans: akta object creat hobe ar jara e aita ke nite caibe se object tai shobar moddhe share hobe aitai singleton design pattern.
 2. interface:
 ans: interface is a pure abstract or just a dharona.
+3. repository design pattern ?
+ans: age akta interface likhe dharona dibo j ki ki kora hobe tarpor akta struct creat kore implemantation korbo
+4. go te constructor kii ?
+ans: j function diye object creat kora hoi se function ke constructor bole.
+5. singleton design pattern, repository design pattern ai gulo oop design pattern
+6. code rakhar design pattern ba arcitecture design pattern : 
+  a. mvc design pattern
+  b. mvvm design pattern
+  c. modular design pattern
+  d. clean arcitecture
+  e. DDD (domain driven design)
+  f. hexagonal design pattern
