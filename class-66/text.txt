@@ -1,0 +1,2 @@
+1. infraestructure?
+ans: jeshob jinis e data joma ba cash kora hoi seshob holo infraestructure jmn redis,DB etc
