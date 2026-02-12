@@ -1,7 +1,7 @@
 package product
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/util"
 	"encoding/json"
 	"fmt"
@@ -29,7 +29,7 @@ func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// createdProduct := database.Store(req)
-	createdProduct,err := h.productRepo.Create(repo.Product{
+	createdProduct,err := h.svc.Create(domain.Product{
 	
     Title    :req.Title,
     Description :req.Description,

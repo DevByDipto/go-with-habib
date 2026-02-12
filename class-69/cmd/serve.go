@@ -3,6 +3,7 @@ package cmd
 import (
 	"ecommerce/config"
 	"ecommerce/infra/db"
+	"ecommerce/product"
 	"ecommerce/repo"
 	"ecommerce/rest"
 	productHandler "ecommerce/rest/handlers/product"
@@ -37,9 +38,10 @@ userRepo := repo.NewUserRepo(dbCon)
 
 // domains
 usrSvc := user.NewService(userRepo)
+prdctSvc := product.NewService(productRepo)
 
 
-	productHandler := productHandler.NewHandler(middlewares,productRepo)
+	productHandler := productHandler.NewHandler(middlewares,prdctSvc)
 	userHandler := userHandler.NewHandler(cnf,usrSvc)
 
 	server := rest.NewServer(cnf,productHandler,userHandler)

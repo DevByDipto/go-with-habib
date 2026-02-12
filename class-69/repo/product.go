@@ -2,27 +2,15 @@ package repo
 
 import (
 	"database/sql"
-	
+	"ecommerce/domain"
+	"ecommerce/product"
 
 	"github.com/jmoiron/sqlx"
 )
 
-// Product represents the data model for a store item
-type Product struct {
-	ID          int     `json:"id" db:"id"`
-	Title       string  `json:"title" db:"title"`
-	Description string  `json:"description" db:"description"`
-	Price       float64 `json:"price" db:"price"`
-	ImgUrl      string  `json:"imageUrl" db:"img_url"`
-}
 
-// ProductRepo defines the behavior of our product storage
 type ProductRepo interface {
-	Create(p Product) (*Product, error)
-	Get(productID int) (*Product, error)
-	List() ([]*Product, error)
-	Delete(productID int) error
-	Update(p Product) (*Product, error)
+	product.ProductRepo
 }
 
 type productRepo struct {
@@ -39,9 +27,9 @@ func NewProductRepo(db *sqlx.DB) ProductRepo {
 
 // --- CRUD Methods ---
 
-func (r *productRepo) Create(p Product) (*Product, error) {
+func (r *productRepo) Create(p domain.Product) (*domain.Product, error) {
 	query := `
-		INSERT INTO products (
+		INSERT INTO domain.s (
 			title,
 			description,
 			price,
@@ -62,8 +50,8 @@ func (r *productRepo) Create(p Product) (*Product, error) {
 	return &p, nil
 }
 
-func (r *productRepo) Get(id int) (*Product, error) {
-	var prd Product
+func (r *productRepo) Get(id int) (*domain.Product, error) {
+	var prd domain.Product
 
 	query := `
 		SELECT 
@@ -90,8 +78,8 @@ func (r *productRepo) Get(id int) (*Product, error) {
 	return &prd, nil
 }
 
-func (r *productRepo) List() ([]*Product, error) {
-	var prdList []*Product // slice -> address, cap, len
+func (r *productRepo) List() ([]*domain.Product, error) {
+	var prdList []*domain.Product // slice -> address, cap, len
 
 	query := `
 		SELECT 
@@ -124,7 +112,7 @@ func (r *productRepo) Delete(id int) error {
 	return nil
 }
 
-func (r *productRepo) Update(p Product) (*Product, error) {
+func (r *productRepo) Update(p domain.Product) (*domain.Product, error) {
 	query := `
 		UPDATE products
 		SET title=$1, description=$2, price=$3, img_url=$4
