@@ -1,8 +1,6 @@
 package user
 
 import (
-	"ecommerce/config"
-	"ecommerce/database"
 	"ecommerce/util"
 	"encoding/json"
 	"fmt"
@@ -15,38 +13,37 @@ type ReqLogin struct {
 }
 
 func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
-	var reqLogin ReqLogin
-	
-	// রিকোয়েস্ট বডি থেকে লগইন ডাটা ডিকোড করা
+	var req ReqLogin
+
+	// Decode the request body
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&reqLogin)
-	
+	err := decoder.Decode(&req)
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, "Invalid Request Data", http.StatusBadRequest)
+		util.SendError(w, http.StatusBadRequest, "Invalid req body")
 		return
 	}
 
-	// ডাটাবেস থেকে ইউজার খোঁজা
-	usr := database.Find(reqLogin.Email, reqLogin.Password)
-	
-	if usr == nil {
-		http.Error(w, "Invalid credentials", http.StatusBadRequest)
+	// Find the user in the repository by email and password
+	usr, err := h.userRepo.Find(req.Email, req.Password)
+	if err != nil {
+		util.SendError(w, http.StatusUnauthorized, "Unauthorized")
 		return
 	}
 
-	cnf := config.GetConfig()
+	// Create the JWT access token using user details
+	accessToken, err := util.CreateJwt(h.cnf.JwtSecretKey, util.Payload{
+		Sub:       usr.ID,       
+		FirstName: usr.FirstName,
+		LastName:  usr.LastName, 
+		Email:     usr.Email,    
+	})
 
-accessToken, err := util.CreateJwt(cnf.JwtSecretKey, util.Payload{
-    Sub:       usr.ID,
-    FirstName: usr.FirstName,
-    LastName:  usr.LastName,
-})
+	if err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+		return
+	}
 
-if err != nil {
-    http.Error(w, "Internal Server Error", http.StatusInternalServerError)
-    return
-}
-	// লগইন সফল হলে ইউজারের ডাটা পাঠানো
-	util.SendData(w, accessToken, http.StatusOK)
+	// Return the access token to the client
+	util.SendData(w, http.StatusCreated, accessToken)
 }

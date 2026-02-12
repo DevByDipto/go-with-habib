@@ -2,7 +2,7 @@ package repo
 
 import (
 	"database/sql"
-	"errors"
+	
 
 	"github.com/jmoiron/sqlx"
 )
@@ -130,7 +130,7 @@ func (r *productRepo) Update(p Product) (*Product, error) {
 		SET title=$1, description=$2, price=$3, img_url=$4
 		WHERE id = $5
 	`
-	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImgUrl, p.Id)
+	row := r.db.QueryRow(query, p.Title, p.Description, p.Price, p.ImgUrl, p.ID)
 	err := row.Err()
 	if err != nil {
 		return nil, err

@@ -1,28 +1,48 @@
 package user
 
 import (
-	"ecommerce/database"
+	"ecommerce/repo"
 	"ecommerce/util"
 	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
+type ReqCreateUser struct {
+	FirstName   string `json:"first_name"`
+	LastName    string `json:"last_name"`
+	Email       string `json:"email"`
+	Password    string `json:"password"`
+	IsShopOwner bool   `json:"is_shop_owner"`
+}
+
 func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
-	var newUser database.User
-	
-	// r.Body থেকে JSON ডাটা ডিকোড করে newUser ভেরিয়েবলে বসানো
+	var req ReqCreateUser
+
+	// Decode the JSON request body
 	decoder := json.NewDecoder(r.Body)
-	err := decoder.Decode(&newUser)
-	
+	err := decoder.Decode(&req)
 	if err != nil {
 		fmt.Println(err)
-		http.Error(w, "Invalid Request Data", http.StatusBadRequest)
+		util.SendError(w, http.StatusBadRequest, "Invalid req body")
 		return
 	}
-	// মেথড কল করে ইউজার স্টোর করা
-	createdUser := newUser.Store()
 
-	// সফল হলে JSON রেসপন্স পাঠানো
-	util.SendData(w, createdUser, http.StatusCreated)
+	// Create the user in the repository
+	// Note: 'repo.User' assumes you have a user model defined in your repo package
+	usr, err := h.userRepo.Create(repo.User{
+		FirstName:   req.FirstName,
+		LastName:    req.LastName,
+		Email:       req.Email,
+		Password:    req.Password,
+		IsShopOwner: req.IsShopOwner,
+	})
+
+	if err != nil {
+		util.SendError(w, http.StatusInternalServerError, "Internal server error")
+		return
+	}
+
+	// Send back the created user data
+	util.SendData(w, http.StatusCreated, usr)
 }

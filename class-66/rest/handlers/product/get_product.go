@@ -1,30 +1,35 @@
 package product
 
 import (
-	"ecommerce/database"
+	
 	"ecommerce/util"
 	"net/http"
 	"strconv"
 )
-
 func (h *Handler) GetProduct(w http.ResponseWriter, r *http.Request) {
-	// URL থেকে আইডি নেওয়া
-	productIDStr := r.PathValue("id")
+	// Extract the product ID from the path parameter
+	productID := r.PathValue("id")
 
-	// স্ট্রিং আইডিকে ইন্টিজারে রূপান্তর
-	pId, err := strconv.Atoi(productIDStr)
+	// Convert the string ID to an integer
+	pId, err := strconv.Atoi(productID)
 	if err != nil {
-		http.Error(w, "Please give me a valid product id", 400)
+		util.SendError(w, http.StatusBadRequest, "Invalid req body")
 		return
 	}
 
-	// ডাটাবেস থেকে প্রোডাক্ট খোঁজা
-	product := database.Get(pId)
+	// Fetch the specific product from the repository
+	product, err := h.productRepo.Get(pId)
+	if err != nil {
+		util.SendError(w, http.StatusInternalServerError, "Internal Server Error")
+		return
+	}
+
+	// Handle case where the repository returns no product
 	if product == nil {
-		util.SendError(w, 404, "Product not found")
+		util.SendError(w, http.StatusNotFound, "Product not found")
 		return
 	}
 
-	// সফল হলে ডাটা পাঠানো
-	util.SendData(w, product, 200)
+	// Successfully return the product data
+	util.SendData(w, http.StatusOK, product)
 }

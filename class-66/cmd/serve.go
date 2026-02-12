@@ -20,7 +20,11 @@ func Serve() {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-
+err = db.MigrateDB(dbCon, "./migrations")
+if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	// Use dbCon here...
 	fmt.Println("Successfully connected to the database!", dbCon)
 
@@ -30,7 +34,7 @@ productRepo := repo.NewProductRepo(dbCon)
 userRepo := repo.NewUserRepo(dbCon)
 
 	productHandler := product.NewHandler(middlewares,productRepo)
-	userHandler := user.NewHandler(userRepo)
+	userHandler := user.NewHandler(userRepo,cnf)
 	server := rest.NewServer(cnf,productHandler,userHandler)
 	server.Start()
 }

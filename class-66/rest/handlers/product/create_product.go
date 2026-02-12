@@ -41,5 +41,5 @@ func (h *Handler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 		http.Error(w,"Internal Error",http.StatusInternalServerError)
 	}
 
-	util.SendData(w, createdProduct, http.StatusCreated)
+	util.SendData(w,http.StatusCreated, createdProduct)
 }

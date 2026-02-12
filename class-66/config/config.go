@@ -124,7 +124,7 @@ func loadConfig() {
 	configurations = &Config{
 		Version:      version,
 		ServiceName:  serviceName,
-		HttpPort:     int(dbPrt), // Using the parsed port from screenshots
+		HttpPort:     int(port), // Using the parsed port from screenshots
 		JwtSecretKey: jwtSecretKey,
 		DB:           dbConfig,
 	}
