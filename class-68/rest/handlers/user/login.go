@@ -25,7 +25,7 @@ func (h *Handler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Find the user in the repository by email and password
-	usr, err := h.userRepo.Find(req.Email, req.Password)
+	usr, err := h.svc.Find(req.Email, req.Password)
 	if err != nil {
 		util.SendError(w, http.StatusUnauthorized, "Unauthorized")
 		return

@@ -5,9 +5,10 @@ import (
 	"ecommerce/infra/db"
 	"ecommerce/repo"
 	"ecommerce/rest"
-	"ecommerce/rest/handlers/product"
-	"ecommerce/rest/handlers/user"
+	productHandler "ecommerce/rest/handlers/product"
+	userHandler "ecommerce/rest/handlers/user"
 	"ecommerce/rest/middleware"
+	"ecommerce/user"
 	"fmt"
 	"os"
 )
@@ -30,11 +31,17 @@ if err != nil {
 
 middlewares := middleware.NewMiddlewares(cnf)
 
+// repos
 productRepo := repo.NewProductRepo(dbCon)
 userRepo := repo.NewUserRepo(dbCon)
 
-	productHandler := product.NewHandler(middlewares,productRepo)
-	userHandler := user.NewHandler(userRepo,cnf)
+// domains
+usrSvc := user.NewService(userRepo)
+
+
+	productHandler := productHandler.NewHandler(middlewares,productRepo)
+	userHandler := userHandler.NewHandler(cnf,usrSvc)
+
 	server := rest.NewServer(cnf,productHandler,userHandler)
 	server.Start()
 }

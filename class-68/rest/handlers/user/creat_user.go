@@ -1,7 +1,7 @@
 package user
 
 import (
-	"ecommerce/repo"
+	"ecommerce/domain"
 	"ecommerce/util"
 	"encoding/json"
 	"fmt"
@@ -30,7 +30,7 @@ func (h *Handler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	// Create the user in the repository
 	// Note: 'repo.User' assumes you have a user model defined in your repo package
-	usr, err := h.userRepo.Create(repo.User{
+	usr, err := h.svc.Create(domain.User{
 		FirstName:   req.FirstName,
 		LastName:    req.LastName,
 		Email:       req.Email,

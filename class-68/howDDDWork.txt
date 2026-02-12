@@ -1,0 +1,23 @@
+1. make a domen folder
+2. make domain go file not folder and insert in there entity or recouce wich is needed for domain
+3. make domain folder in root file like use,product folder
+4. every folder have two file port and service go file
+5. domain jar jar upor depended tar tar signatuer gulo port file e rakhe. jmn user service jar jar upor depended tar signature user domain er port er moddhe rekhe dibo.
+6. domain jmn user jar jar upor depended jmn userRepo se user er child so user direct userRepo ke access korte parbe nah.jaa ager class e kore aschi
+7. so userRepo port e thakbe. userRepo interface er vitorer field gulo holo signature
+8. akhon user domain er upor depended jara tara user er moddhe thakbe jmn login,user creat arthath user api handler gulo user er upor depended
+9. user handler nije akta port.go file toirikorbe 
+10. akhon handler user creat korar jonno repor upor depended but rules holo handler ke domain er upor depended hote hobe
+11. tai user handler port file er moddhe akta service interface toiri korbe ar tate handler er ja ja dependence ta ta sei servuce interface e rekhe dibe jmn user handler login korar jonno Find() func o creat korar somoi creat function.
+
+12. akhon creat,login handler user handler file e userRepo er upor dependence rakhbe nah se direct service interface er upor depended hobe as a result creat,login function er moddhe o handler service er upor dependedhobe .
+
+// userrepo ke access korle child access hocche ar akhon child access hocche nah keno ??
+
+
+
+
+
+DDD rules:
+1. parent will never access directly the child
+2. child can access parent or grand parent or grand grand parent 
